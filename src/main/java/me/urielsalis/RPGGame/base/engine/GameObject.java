@@ -1,5 +1,7 @@
 package me.urielsalis.RPGGame.base.engine;
 
+import me.urielsalis.RPGGame.base.game.Game;
+
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTranslatef;
@@ -11,6 +13,9 @@ public abstract class GameObject {
     protected float x;
     protected float y;
     protected Sprite spr;
+    protected int type = 0;
+
+    protected boolean remove = false;
 
     public void render() {
         glPushMatrix();
@@ -57,10 +62,19 @@ public abstract class GameObject {
         return spr.getSy();
     }
 
-    protected void init(float x, float y, float r, float g, float b, float sx, float sy) {
+    public int getType() {
+        return type;
+    }
+
+    protected void init(float x, float y, float r, float g, float b, float sx, float sy, int type) {
         this.x = x;
         this.y = y;
+        this.type = type;
         this.spr = new Sprite(r, g, b, sx, sy);
+    }
+
+    public boolean getRemove() {
+        return remove;
     }
 
 }

@@ -1,6 +1,7 @@
 package me.urielsalis.RPGGame.base.gameobject;
 
 import me.urielsalis.RPGGame.base.engine.GameObject;
+import me.urielsalis.RPGGame.base.gameobject.item.Item;
 import org.lwjgl.input.Keyboard;
 
 /**
@@ -8,12 +9,13 @@ import org.lwjgl.input.Keyboard;
  */
 public class Player extends GameObject {
     public static final int SIZE = 32;
+    public static final double LEVEL_CONST = 25 * Math.pow(3, (3.0/2.0));
 
     private int health;
     private float xp;
 
     public Player(float x, float y) {
-        init(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE);
+        init(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, 0);
         health = 10;
         xp = 0;
     }
@@ -39,7 +41,13 @@ public class Player extends GameObject {
     }
 
     public int getLevel() {
-        return (int) ((xp / 50) + 1);
+        double x = xp + 105; //Level 1 = 105xp, so move it so level 1 = 0xp
+
+        double a = Math.sqrt(243 * (x * x) + 4050 * x + 17500); //almost logaritmic, exponential increase over time
+        double c = (3 * x + 25)/25; //lineal ecuation
+        double d = Math.cbrt(a / LEVEL_CONST + c); //combine both
+
+        return (int) (d - (1.0 / d * 3)) - 1; //avoid starting in level -1
     }
 
     public int getMaxHealth() {
@@ -76,6 +84,10 @@ public class Player extends GameObject {
 
     @Override
     public void update() {
-        System.out.println("Stats: SPEED: " + getSpeed() + " LEVEL: " + getLevel() + " MAXHP: " + getMaxHealth() + " HP: " + getCurrentHealth() + " STREGTH: " + getStrength() + " MAGIC: " + getMagic());
+        //System.out.println("Stats: SPEED: " + getSpeed() + " LEVEL: " + getLevel() + " MAXHP: " + getMaxHealth() + " HP: " + getCurrentHealth() + " STREGTH: " + getStrength() + " MAGIC: " + getMagic());
+    }
+
+    public void addItem(Item item) {
+        System.out.println("We just picked up an item!");
     }
 }
