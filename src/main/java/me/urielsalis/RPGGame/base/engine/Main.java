@@ -1,5 +1,6 @@
 package me.urielsalis.RPGGame.base.engine;
 
+import me.urielsalis.RPGGame.base.game.Game;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;

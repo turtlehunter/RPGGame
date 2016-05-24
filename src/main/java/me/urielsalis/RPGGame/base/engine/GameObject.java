@@ -1,15 +1,36 @@
 package me.urielsalis.RPGGame.base.engine;
 
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTranslatef;
+
 /**
  * @author urielsalis
  */
 public abstract class GameObject {
-    private float x;
-    private float y;
-    private Animation anim;
+    protected float x;
+    protected float y;
+    protected Sprite spr;
 
     public void render() {
+        glPushMatrix();
+        {
+            glTranslatef(x, y, 0);
+            spr.render();
+        }
+        glPopMatrix();
+    }
 
+    public void update() {
+
+    }
+
+    public Sprite getSpr() {
+        return spr;
+    }
+
+    public void setSpr(Sprite spr) {
+        this.spr = spr;
     }
 
     public float getX() {
@@ -28,16 +49,18 @@ public abstract class GameObject {
         this.y = y;
     }
 
-    public Animation getAnim() {
-        return anim;
+    public float getSX() {
+        return spr.getSx();
     }
 
-    public void setAnim(Animation anim) {
-        this.anim = anim;
+    public float getSY() {
+        return spr.getSy();
     }
 
-    public void update() {
-
+    protected void init(float x, float y, float r, float g, float b, float sx, float sy) {
+        this.x = x;
+        this.y = y;
+        this.spr = new Sprite(r, g, b, sx, sy);
     }
 
 }
