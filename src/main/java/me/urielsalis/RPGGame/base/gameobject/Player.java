@@ -14,8 +14,8 @@ public class Player extends GameObject {
     private Inventory inventory;
 
     public Player(float x, float y) {
-        init(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, 0);
-        stats = new Stats(0);
+        init(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, PLAYER_ID);
+        stats = new Stats(0, true);
         inventory = new Inventory(20);
     }
 

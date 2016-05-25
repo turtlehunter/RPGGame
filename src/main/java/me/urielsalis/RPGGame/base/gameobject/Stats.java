@@ -8,10 +8,20 @@ public class Stats {
 
     private float xp;
     private int health;
+    private boolean levelable;
+    private int level;
 
-    public Stats(float xp) {
-        this.xp = xp;
+    public Stats(float xp, boolean levelable) {
+        this.levelable = levelable;
+        if(levelable) {
+            this.xp = xp;
+            this.level = 1;
+        } else {
+            this.xp = -1;
+            this.level = (int) xp;
+        }
         this.health = getMaxHealth();
+
     }
 
     public float getSpeed() {
@@ -19,6 +29,8 @@ public class Stats {
     }
 
     public int getLevel() {
+        if(!levelable) return level;
+
         double x = xp + 105; //Level 1 = 105xp, so move it so level 1 = 0xp
 
         double a = Math.sqrt(243 * (x * x) + 4050 * x + 17500); //almost logaritmic, exponential increase over time
@@ -59,5 +71,4 @@ public class Stats {
 
         return health;
     }
-
 }

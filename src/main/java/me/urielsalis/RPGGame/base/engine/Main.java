@@ -6,6 +6,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,5 +86,9 @@ public class Main {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, e);
         }
 
+    }
+
+    public static ArrayList<GameObject> sphereCollide(float x, float y, float radius) {
+        return game.sphereCollide(x, y, radius);
     }
 }
