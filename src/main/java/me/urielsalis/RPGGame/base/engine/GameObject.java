@@ -15,7 +15,7 @@ public abstract class GameObject {
     protected Sprite spr;
     protected int type = 0;
 
-    protected boolean remove = false;
+    protected boolean[] flags = new boolean[1];
 
     public void render() {
         glPushMatrix();
@@ -74,7 +74,11 @@ public abstract class GameObject {
     }
 
     public boolean getRemove() {
-        return remove;
+        return flags[0];
+    }
+
+    public void remove() {
+        flags[0] = true;
     }
 
 }

@@ -9,15 +9,14 @@ import org.lwjgl.input.Keyboard;
  */
 public class Player extends GameObject {
     public static final int SIZE = 32;
-    public static final double LEVEL_CONST = 25 * Math.pow(3, (3.0/2.0));
 
-    private int health;
-    private float xp;
+    private Stats stats;
+    private Inventory inventory;
 
     public Player(float x, float y) {
         init(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, 0);
-        health = 10;
-        xp = 0;
+        stats = new Stats(0);
+        inventory = new Inventory(20);
     }
 
     public void getInput() {
@@ -36,58 +35,48 @@ public class Player extends GameObject {
         y += getSpeed() * magY;
     }
 
-    public float getSpeed() {
-        return 4f; //Will be replaced
-    }
-
-    public int getLevel() {
-        double x = xp + 105; //Level 1 = 105xp, so move it so level 1 = 0xp
-
-        double a = Math.sqrt(243 * (x * x) + 4050 * x + 17500); //almost logaritmic, exponential increase over time
-        double c = (3 * x + 25)/25; //lineal ecuation
-        double d = Math.cbrt(a / LEVEL_CONST + c); //combine both
-
-        return (int) (d - (1.0 / d * 3)) - 1; //avoid starting in level -1
-    }
-
-    public int getMaxHealth() {
-        return getLevel() * 10;
-    }
-
-    public float getXp() {
-        return xp;
-    }
-
-    public void setXp(float xp) {
-        this.xp = xp;
-    }
-
-    public void addXp(float amt) {
-        xp += amt;
-    }
-
-    public float getStrength() {
-        return getLevel() * 4f;
-    }
-
-    public float getMagic() {
-        return getLevel() * 4f;
-    }
-
-    public int getCurrentHealth() {
-        int max = getMaxHealth();
-        if(health > max)
-            health = max;
-
-        return health;
-    }
-
     @Override
     public void update() {
         //System.out.println("Stats: SPEED: " + getSpeed() + " LEVEL: " + getLevel() + " MAXHP: " + getMaxHealth() + " HP: " + getCurrentHealth() + " STREGTH: " + getStrength() + " MAGIC: " + getMagic());
     }
 
     public void addItem(Item item) {
-        System.out.println("We just picked up an item!");
+        inventory.add(item);
+    }
+
+    public float getSpeed() {
+        return stats.getSpeed();
+    }
+
+    public int getLevel() {
+        return stats.getLevel();
+    }
+
+    public int getMaxHealth() {
+        return stats.getMaxHealth();
+    }
+
+    public float getXp() {
+        return stats.getXp();
+    }
+
+    public void setXp(float xp) {
+        stats.setXp(xp);
+    }
+
+    public void addXp(float amt) {
+        stats.addXp(amt);
+    }
+
+    public float getStrength() {
+        return stats.getStrength();
+    }
+
+    public float getMagic() {
+        return stats.getMagic();
+    }
+
+    public int getCurrentHealth() {
+        return stats.getCurrentHealth();
     }
 }
