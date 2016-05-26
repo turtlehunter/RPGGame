@@ -71,4 +71,8 @@ public class Stats {
 
         return health;
     }
+
+    public void damage(int amt) {
+        health -= amt;
+    }
 }

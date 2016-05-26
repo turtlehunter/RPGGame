@@ -1,16 +1,18 @@
 package me.urielsalis.RPGGame.base.gameobject;
 
 import me.urielsalis.RPGGame.base.engine.GameObject;
+import me.urielsalis.RPGGame.base.game.Time;
 import me.urielsalis.RPGGame.base.gameobject.item.Item;
 import org.lwjgl.input.Keyboard;
+
+import static me.urielsalis.RPGGame.base.game.Time.getDelta;
 
 /**
  * @author urielsalis
  */
-public class Player extends GameObject {
+public class Player extends StatObject {
     public static final int SIZE = 32;
 
-    private Stats stats;
     private Inventory inventory;
 
     public Player(float x, float y) {
@@ -31,8 +33,8 @@ public class Player extends GameObject {
     }
 
     private void move(float magX, float magY) {
-        x += getSpeed() * magX;
-        y += getSpeed() * magY;
+        x += getSpeed() * magX * Time.getDelta();
+        y += getSpeed() * magY * Time.getDelta();
     }
 
     @Override
@@ -42,41 +44,5 @@ public class Player extends GameObject {
 
     public void addItem(Item item) {
         inventory.add(item);
-    }
-
-    public float getSpeed() {
-        return stats.getSpeed();
-    }
-
-    public int getLevel() {
-        return stats.getLevel();
-    }
-
-    public int getMaxHealth() {
-        return stats.getMaxHealth();
-    }
-
-    public float getXp() {
-        return stats.getXp();
-    }
-
-    public void setXp(float xp) {
-        stats.setXp(xp);
-    }
-
-    public void addXp(float amt) {
-        stats.addXp(amt);
-    }
-
-    public float getStrength() {
-        return stats.getStrength();
-    }
-
-    public float getMagic() {
-        return stats.getMagic();
-    }
-
-    public int getCurrentHealth() {
-        return stats.getCurrentHealth();
     }
 }

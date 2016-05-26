@@ -1,6 +1,7 @@
 package me.urielsalis.RPGGame.base.engine;
 
 import me.urielsalis.RPGGame.base.game.Game;
+import me.urielsalis.RPGGame.base.game.Time;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -39,7 +40,9 @@ public class Main {
     }
 
     private static void gameLoop() {
+        Time.init();
         while (!Display.isCloseRequested()) {
+            Time.update();
             getInput();
             update();
             render();
