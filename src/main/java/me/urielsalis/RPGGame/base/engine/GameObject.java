@@ -10,17 +10,17 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
  * @author urielsalis
  */
 public abstract class GameObject {
+    public static final int DEFAULT_ID = 0;
     public static final int ITEM_ID = 1;
     public static final int PLAYER_ID = 2;
     public static final int ENEMY_ID = 3;
-
 
     protected float x;
     protected float y;
     protected Sprite spr;
     protected int type = 0;
 
-    protected boolean[] flags = new boolean[1];
+    protected boolean[] flags = new boolean[2];
 
     public void render() {
         glPushMatrix();
@@ -82,8 +82,16 @@ public abstract class GameObject {
         return flags[0];
     }
 
+    public boolean getSolid() {
+        return flags[1];
+    }
+
     public void remove() {
         flags[0] = true;
     }
+    public void setSolid(boolean value) {
+        flags[1] = value;
+    }
+
 
 }

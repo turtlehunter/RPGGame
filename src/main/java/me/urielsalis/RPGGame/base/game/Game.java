@@ -19,16 +19,49 @@ public class Game {
     private ArrayList<GameObject> remove;
     private Player player;
 
+    public void generateTestLevel() {
+        //Generate First Room
+        objects.add(new Wall(200, 200, 1, 300)); //standard size = 300 left wall
+        //objects.add(new Wall(500, 200, 1, 300)); //right wall
+        objects.add(new Wall(500, 200, 1, 100)); //hole in right first half
+        objects.add(new Wall(500, 400, 1, 100)); //hole in right second half
+        objects.add(new Wall(200, 200, 300, 1)); //bottom wall
+        objects.add(new Wall(200, 500, 100, 1)); //hole in top first half
+        objects.add(new Wall(400, 500, 100, 1)); //hole in top second half
+
+        //Generate Hallway 1
+        objects.add(new Wall(300, 500, 1, 200));
+        objects.add(new Wall(400, 500, 1, 200)); //last arg = length of halway up
+
+        //Generate Second Room
+        objects.add(new Wall(400, 700, 100, 1)); //y = previousY + length(500 + 200) //first half of room opened in the bottom
+        objects.add(new Wall(200, 700, 100, 1)); //first half of wall opened in the bottom
+        objects.add(new Wall(200, 700, 1, 300));
+        objects.add(new Wall(500, 700, 1, 300));
+        objects.add(new Wall(200, 1000, 300, 1));
+
+        //Generate Hallway 2
+        objects.add(new Wall(500, 400, 100, 1)); //top wall 100 so shorter halfway than 200
+        objects.add(new Wall(500, 300, 100, 1)); //top wall
+        objects.add(new Wall(600, 200, 1, 100)); //hole in left first half
+        objects.add(new Wall(600, 400, 1, 100)); //hole in left second half
+        objects.add(new Wall(600, 200, 300, 1)); //bottom wall
+        objects.add(new Wall(600, 500, 300, 1)); //top wall
+        objects.add(new Wall(900, 200, 1, 300)); //right wall
+
+    }
+
     public Game() {
         objects = new ArrayList<GameObject>();
         remove = new ArrayList<GameObject>();
-        RPGRandom.initRand();
 
         player = new Player(Display.getWidth() / 2 - Player.SIZE / 2, Display.getHeight() / 2 - Player.SIZE / 2);
 
         objects.add(player);
-        objects.add(new Cube(32, 32));
-        objects.add(new CookieMonster(300, 500, 1));
+        generateTestLevel();
+        //objects.add(new Cube(32, 32));
+        //objects.add(new CookieMonster(300, 500, 1));
+        //objects.add(new Wall(200, 200, 1, 300));
     }
 
     public void getInput() {

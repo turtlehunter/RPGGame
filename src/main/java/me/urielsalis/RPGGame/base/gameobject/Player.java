@@ -7,8 +7,13 @@ import me.urielsalis.RPGGame.base.game.Time;
 import me.urielsalis.RPGGame.base.game.Util;
 import me.urielsalis.RPGGame.base.gameobject.item.Item;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 
 import java.util.ArrayList;
+
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTranslatef;
 
 /**
  * @author urielsalis
@@ -29,6 +34,9 @@ public class Player extends StatObject {
     private Delay attackDelay;
     private int attackDamage;
 
+    private float moveAmountX;
+    private float moveAmountY;
+
     public Player(float x, float y) {
         init(x, y, 0.1f, 1f, 0.25f, SIZE, SIZE, PLAYER_ID);
         stats = new Stats(0, true);
@@ -37,8 +45,11 @@ public class Player extends StatObject {
         attackRange = 49; //1 pixel more so if enemy is moving to us we can hit it
         attackDamage = 1;
         facingDirection = 0;
+        moveAmountX = 0;
+        moveAmountY = 0;
         attackDelay = new Delay(500);
         attackDelay.terminate();
+
     }
 
     public void getInput() {
@@ -65,21 +76,42 @@ public class Player extends StatObject {
         else if(magX == 1 && magY == 0)
             facingDirection = RIGHT;
 
-        x += 4f * magX * Time.getDelta(); //TODO add speed scale
-        y += 4f * magY * Time.getDelta();
+        //x += 4f * magX * Time.getDelta(); //TODO add speed scale
+        //y += 4f * magY * Time.getDelta();
+        moveAmountX += 4f * magX * Time.getDelta();
+        moveAmountY += 4f * magY * Time.getDelta();
     }
 
     @Override
     public void update() {
         //System.out.println("Stats: SPEED: " + getSpeed() + " LEVEL: " + getLevel() + " MAXHP: " + getMaxHealth() + " HP: " + getCurrentHealth() + " STREGTH: " + getStrength() + " MAGIC: " + getMagic());
-        ArrayList<GameObject> objects = Game.rectangleCollide(x, y, x+SIZE, y+SIZE);
+        float newX = x + moveAmountX;
+        float newY = y + moveAmountY;
+        moveAmountX = 0;
+        moveAmountY = 0;
+
+        ArrayList<GameObject> objects = Game.rectangleCollide(newX, newY, newX+SIZE, newY+SIZE);
+        ArrayList<GameObject> items = new ArrayList<GameObject>();
+
+        boolean move = true;
 
         for(GameObject go: objects) {
-            if(go.getType() == GameObject.ITEM_ID) {
-                System.out.println("You just picked up " + ((Item) go).getName() + "!");
-                ((Item) go).remove();
-                addItem((Item) go);
-            }
+            if(go.getType() == GameObject.ITEM_ID)
+                items.add(go);
+            if(go.getSolid())
+                move = false;
+        }
+
+        if(!move)
+            return;
+
+        x = newX;
+        y = newY;
+
+        for(GameObject go: items) {
+            System.out.println("You just picked up " + ((Item) go).getName() + "!");
+            ((Item) go).remove();
+            addItem((Item) go);
         }
 
     }
@@ -133,5 +165,12 @@ public class Player extends StatObject {
         }
 
         attackDelay.restart();
+    }
+
+    @Override
+    public void render() {
+        glTranslatef(Display.getWidth() / 2 - Player.SIZE / 2, Display.getHeight() / 2 - Player.SIZE / 2, 0);
+        spr.render();
+        glTranslatef(-x, -y, 0);
     }
 }

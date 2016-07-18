@@ -18,29 +18,28 @@ public class StatScale {
 
     private double[] scales;
     private double[] scaleBonus;
+    private RPGRandom rand;
 
     public StatScale() {
         scales = new double[NUM_STATS];
         scaleBonus = new double[NUM_STATS];
+        rand = new RPGRandom();
     }
 
     public void generateStatScale() {
         double sum = 0;
         for(int i=0; i < NUM_STATS; i++) {
-            double val = RPGRandom.nextDouble(1);
+            double val = Math.abs(rand.nextDouble());
             scales[i] = val;
-            sum += val * val;
+            sum += val;
         }
-
-        sum = Math.sqrt(sum);
 
         //Normalize scales
         for (int i=0; i < NUM_STATS; i++) {
             scales[i] /= sum;
-            if (scales[i] < MIN_STATSCALE) {
-                generateStatScale(); //lets hope we arent unlikely enough that we have to re run it 256 times
-                return;
-            }
+            scales[i] *= (1.0 - MIN_STATSCALE * MIN_STATSCALE * NUM_STATS);
+            scales[i] += MIN_STATSCALE * MIN_STATSCALE;
+            scales[i] = Math.sqrt(scales[i]);
         }
 
     }
