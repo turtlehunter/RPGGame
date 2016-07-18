@@ -17,9 +17,6 @@ import static org.lwjgl.opengl.GL11.*;
  * @author urielsalis
  */
 public class Main {
-
-    private static Game game;
-
     public static void main(String[] args) {
         initDisplay();
         initGL();
@@ -31,7 +28,7 @@ public class Main {
     }
 
     private static void initGame() {
-        game = new Game();
+        Game.game = new Game();
     }
 
     private static void cleanUp() {
@@ -54,18 +51,18 @@ public class Main {
         glClear(GL_COLOR_BUFFER_BIT);
         glLoadIdentity();
 
-        game.render();
+        Game.game.render();
 
         Display.update();
         Display.sync(60);
     }
 
     private static void update() {
-        game.update();
+        Game.game.update();
     }
 
     private static void getInput() {
-        game.getInput();
+        Game.game.getInput();
     }
 
     private static void initGL() {
@@ -91,7 +88,4 @@ public class Main {
 
     }
 
-    public static ArrayList<GameObject> sphereCollide(float x, float y, float radius) {
-        return game.sphereCollide(x, y, radius);
-    }
 }

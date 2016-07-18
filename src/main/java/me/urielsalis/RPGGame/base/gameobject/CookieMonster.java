@@ -8,7 +8,7 @@ public class CookieMonster extends Enemy {
 
     public CookieMonster(float x, float y, int level) {
         super(level);
-        init(x, y, 0.2f, 0.2f, 1f, SIZE, SIZE, 0);
+        init(x, y, 0.2f, 0.2f, 1f, SIZE, SIZE, ENEMY_ID);
         setAttackDelay(500);
     }
 
