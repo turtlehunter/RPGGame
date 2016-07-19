@@ -4,6 +4,7 @@ import me.urielsalis.RPGGame.base.engine.GameObject;
 import me.urielsalis.RPGGame.base.engine.Physics;
 import me.urielsalis.RPGGame.base.gameobject.*;
 import me.urielsalis.RPGGame.base.gameobject.item.*;
+import me.urielsalis.RPGGame.base.level.TestLevel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.Rectangle;
 
@@ -19,7 +20,7 @@ public class Game {
     private ArrayList<GameObject> remove;
     private Player player;
 
-    public void generateTestLevel() {
+    public void oldGenerateTestLevel() {
         //Generate First Room
         objects.add(new Wall(200, 200, 1, 300)); //standard size = 300 left wall
         //objects.add(new Wall(500, 200, 1, 300)); //right wall
@@ -58,7 +59,7 @@ public class Game {
         player = new Player(Display.getWidth() / 2 - Player.SIZE / 2, Display.getHeight() / 2 - Player.SIZE / 2);
 
         objects.add(player);
-        generateTestLevel();
+        objects.addAll(TestLevel.generate());
         //objects.add(new Cube(32, 32));
         //objects.add(new CookieMonster(300, 500, 1));
         //objects.add(new Wall(200, 200, 1, 300));
